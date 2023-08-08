@@ -62,6 +62,7 @@
         timePassedDisplay.innerText = '';
 
         const newTextInput = document.getElementById('text-input').value;
+        document.getElementById('text-input').value = '';
 
         window.localStorage.setItem('timestamp', newTimestamp);
         window.localStorage.setItem('full-date', new Date());
