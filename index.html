@@ -7,12 +7,48 @@
   </head>
   <body>
     <h1 id="timestamp-display"></h1>
-    <button id="log-btn">Log time</button>
+    <p id="time-passed"></p>
+    <label>Optional description:</label><br />
+    <input type="text" id="text-input" />
+    <div>
+      <button id="log-btn">Log time</button>
+    </div>
+    <style>
+      button {
+        background-color: #4caf50; /* Green */
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+      }
+    </style>
     <script>
       const timestampDisplay = document.getElementById('timestamp-display');
+      const timePassedDisplay = document.getElementById('time-passed');
 
       const oldTimestamp = window.localStorage.getItem('timestamp');
-      if (oldTimestamp) timestampDisplay.innerText = oldTimestamp;
+      const oldTextInput = window.localStorage.getItem('text-input');
+
+      if (oldTimestamp) {
+        timestampDisplay.innerText = oldTimestamp;
+
+        const oldDate = Date.parse(window.localStorage.getItem('full-date'));
+
+        const timePassed = new Date(new Date() - new Date(oldDate));
+
+        // NOTE: function "getHours" prints the hours in the local timezone
+        const h = Math.floor(timePassed / (60 * 60 * 1000));
+        const m = timePassed.getMinutes();
+
+        const timePassedText = `${h} hours and ${m} minutes since last time${
+          oldTextInput ? ` you ${oldTextInput}` : ''
+        }`;
+
+        timePassedDisplay.innerText = timePassedText;
+      }
 
       const logButton = document.getElementById('log-btn');
       logButton.addEventListener('click', () => {
@@ -23,8 +59,13 @@
         });
 
         timestampDisplay.innerText = newTimestamp;
+        timePassedDisplay.innerText = '';
+
+        const newTextInput = document.getElementById('text-input').value;
 
         window.localStorage.setItem('timestamp', newTimestamp);
+        window.localStorage.setItem('full-date', new Date());
+        window.localStorage.setItem('text-input', newTextInput);
       });
 
       // cred: https://stackoverflow.com/a/48454108
