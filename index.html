@@ -58,10 +58,11 @@
           minute: '2-digit',
         });
 
-        timestampDisplay.innerText = newTimestamp;
-        timePassedDisplay.innerText = '';
-
         const newTextInput = document.getElementById('text-input').value;
+
+        timestampDisplay.innerText = newTimestamp;
+        timePassedDisplay.innerText = `${newTextInput} logged`;
+
         document.getElementById('text-input').value = '';
 
         window.localStorage.setItem('timestamp', newTimestamp);
