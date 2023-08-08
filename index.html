@@ -9,16 +9,22 @@
     <h1 id="timestamp-display"></h1>
     <button id="log-btn">Log time</button>
     <script>
-      const logButton = document.getElementById('log-btn');
+      const timestampDisplay = document.getElementById('timestamp-display');
 
+      const oldTimestamp = window.localStorage.getItem('timestamp');
+      if (oldTimestamp) timestampDisplay.innerText = oldTimestamp;
+
+      const logButton = document.getElementById('log-btn');
       logButton.addEventListener('click', () => {
         const roundedDate = getRoundedDate(5);
-
-        const timestampDisplay = document.getElementById('timestamp-display');
-        timestampDisplay.innerText = roundedDate.toLocaleTimeString([], {
+        const newTimestamp = roundedDate.toLocaleTimeString([], {
           hour: '2-digit',
           minute: '2-digit',
         });
+
+        timestampDisplay.innerText = newTimestamp;
+
+        window.localStorage.setItem('timestamp', newTimestamp);
       });
 
       // cred: https://stackoverflow.com/a/48454108
